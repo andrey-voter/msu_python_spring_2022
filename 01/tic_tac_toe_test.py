@@ -1,4 +1,6 @@
 """The main test module"""
+import io
+import sys
 import unittest
 from tic_tac_toe import TicTac
 
@@ -7,6 +9,8 @@ class TestTicTacToe(unittest.TestCase):
     """Test cases to test Tictac methods"""
     def setUp(self):
         self.Tictac = TicTac()
+        suppress_text = io.StringIO()
+        sys.stdout = suppress_text
 
     def test_validate_input(self):
         """Test cases to test different input variants"""
