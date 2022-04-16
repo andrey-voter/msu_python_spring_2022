@@ -1,10 +1,8 @@
 """the main module"""
+
+
 class CustomList(list):
     """the main class"""
-    def __init___(self):
-        self.data = []
-        self.size = 0
-
     def __add__(self, other):
         tmp = CustomList()
         size = max(len(self), len(other))
@@ -63,8 +61,8 @@ class CustomList(list):
 
     def summa(self):
         ans = 0
-        for i in range(len(self)):
-            ans += self[i]
+        for i in self:
+            ans += i
         return ans
 
     def __eq__(self, other):
@@ -75,7 +73,7 @@ class CustomList(list):
 
     def __str__(self):
         ans = ''
-        for i in range(len(self)):
-            ans += str(self[i])
+        for i in self:
+            ans += str(i)
             ans += ' '
         return "({0}custom_list_sum == {1})".format(ans, str(self.summa()))
