@@ -71,6 +71,18 @@ class CustomList(list):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __lt__(self, other):
+        return self.summa() < other.summa()
+
+    def __le__(self, other):
+        return self.summa() <= other.summa()
+
+    def __gt__(self, other):
+        return self.summa() > other.summa()
+
+    def __ge__(self, other):
+        return self.summa() >= other.summa()
+
     def __str__(self):
         ans = ''
         for i in self:

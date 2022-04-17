@@ -395,6 +395,107 @@ class TestList(unittest.TestCase):
         self.assertTrue(is_equal(l_1, CustomList([])))
         self.assertTrue(is_equal(l_2, CustomList([1, -1])))
 
+    def test_gt_and_ge(self):
+        l_1 = CustomList([5, 1, 3, 7])
+        l_2 = CustomList([1, 2, 7, 0])
+        self.assertTrue(l_1 > l_2)
+        self.assertTrue(l_1 >= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([5, 1, 3, 7])))
+        self.assertTrue(is_equal(l_2, CustomList([1, 2, 7, 0])))
+
+        l_1 = CustomList([5, 1, 3, 7])
+        l_2 = CustomList([5, 1, 3, 7])
+        self.assertFalse(l_1 > l_2)
+        self.assertTrue(l_1 >= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([5, 1, 3, 7])))
+        self.assertTrue(is_equal(l_2, CustomList([5, 1, 3, 7])))
+
+        l_1 = CustomList([5, 1, 3, 0])
+        l_2 = CustomList([5, 1, 3])
+        self.assertFalse(l_1 > l_2)
+        self.assertTrue(l_1 >= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([5, 1, 3, 0])))
+        self.assertTrue(is_equal(l_2, CustomList([5, 1, 3])))
+
+        l_1 = CustomList([0, 0, 0, 0, 0])
+        l_2 = CustomList([])
+        self.assertFalse(l_1 > l_2)
+        self.assertTrue(l_1 >= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([0, 0, 0, 0, 0])))
+        self.assertTrue(is_equal(l_2, CustomList([])))
+
+        l_1 = CustomList([0, 0, 0, 0, 0])
+        l_2 = CustomList([1, -1])
+        self.assertFalse(l_1 > l_2)
+        self.assertTrue(l_1 >= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([0, 0, 0, 0, 0])))
+        self.assertTrue(is_equal(l_2, CustomList([1, -1])))
+
+        l_1 = CustomList([1.0, 2.57, 100.13])
+        l_2 = CustomList([1.0, 2.57, 6.13, 1])
+        self.assertTrue(l_1 > l_2)
+        self.assertTrue(l_1 >= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([1.0, 2.57, 100.13])))
+        self.assertTrue(is_equal(l_2, CustomList([1.0, 2.57, 6.13, 1])))
+
+        l_1 = CustomList([1.0, 2.57, 7.13])
+        l_2 = CustomList([1.0, 2.57, 6.13, 1])
+        self.assertFalse(l_1 > l_2)
+        self.assertTrue(l_1 >= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([1.0, 2.57, 7.13])))
+        self.assertTrue(is_equal(l_2, CustomList([1.0, 2.57, 6.13, 1])))
+
+
+    def test_lt_and_le(self):
+        l_1 = CustomList([1, 2, 7, 0])
+        l_2 = CustomList([5, 1, 3, 7])
+        self.assertTrue(l_1 < l_2)
+        self.assertTrue(l_1 <= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([1, 2, 7, 0])))
+        self.assertTrue(is_equal(l_2, CustomList([5, 1, 3, 7])))
+
+        l_1 = CustomList([5, 1, 3, 7])
+        l_2 = CustomList([5, 1, 3, 7])
+        self.assertFalse(l_1 < l_2)
+        self.assertTrue(l_1 <= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([5, 1, 3, 7])))
+        self.assertTrue(is_equal(l_2, CustomList([5, 1, 3, 7])))
+
+        l_1 = CustomList([5, 1, 3, 0])
+        l_2 = CustomList([5, 1, 3])
+        self.assertFalse(l_1 < l_2)
+        self.assertTrue(l_1 <= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([5, 1, 3, 0])))
+        self.assertTrue(is_equal(l_2, CustomList([5, 1, 3])))
+
+        l_1 = CustomList([0, 0, 0, 0, 0])
+        l_2 = CustomList([])
+        self.assertFalse(l_1 < l_2)
+        self.assertTrue(l_1 <= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([0, 0, 0, 0, 0])))
+        self.assertTrue(is_equal(l_2, CustomList([])))
+
+        l_1 = CustomList([0, 0, 0, 0, 0])
+        l_2 = CustomList([1, -1])
+        self.assertFalse(l_1 < l_2)
+        self.assertTrue(l_1 <= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([0, 0, 0, 0, 0])))
+        self.assertTrue(is_equal(l_2, CustomList([1, -1])))
+
+        l_1 = CustomList([1.0, 2.57, 100.13])
+        l_2 = CustomList([1.0, 2.57, 6.13, 1])
+        self.assertFalse(l_1 < l_2)
+        self.assertFalse(l_1 <= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([1.0, 2.57, 100.13])))
+        self.assertTrue(is_equal(l_2, CustomList([1.0, 2.57, 6.13, 1])))
+
+        l_1 = CustomList([1.0, 2.57, 7.13])
+        l_2 = CustomList([1.0, 2.57, 6.13, 1])
+        self.assertFalse(l_1 < l_2)
+        self.assertTrue(l_1 <= l_2)
+        self.assertTrue(is_equal(l_1, CustomList([1.0, 2.57, 7.13])))
+        self.assertTrue(is_equal(l_2, CustomList([1.0, 2.57, 6.13, 1])))
+
 
 if __name__ == "__main__":
     unittest.main()
