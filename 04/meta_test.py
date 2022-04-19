@@ -17,10 +17,6 @@ class CustomClass(metaclass=CustomMeta):
     def __str__(self):
         return "Custom_by_metaclass"
 
-    def __setattr__(self, key, value):
-        new_name = "custom_" + key
-        return super().__setattr__(new_name, value)
-
 
 class TestMeta(unittest.TestCase):
     """Test cases to test Metaclass"""
@@ -79,6 +75,16 @@ class TestMeta(unittest.TestCase):
         self.assertRaises(AttributeError, getattr, inst, 'x')
         self.assertRaises(AttributeError, getattr, inst, 'line')
         self.assertRaises(AttributeError, getattr, CustomClass, 'x')
+
+        # тесты с использованием контекстных менеджеров
+        with self.assertRaises(AttributeError):
+            inst.line
+        with self.assertRaises(AttributeError):
+            inst.x
+        with self.assertRaises(AttributeError):
+            inst.field
+        with self.assertRaises(AttributeError):
+            inst.val
 
 
 if __name__ == "__main__":
