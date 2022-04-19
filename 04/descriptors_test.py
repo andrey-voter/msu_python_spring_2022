@@ -25,38 +25,39 @@ class TestDescriptors(unittest.TestCase):
         self.assertEqual(data.price, 100)
         self.assertEqual(data.name, 'data_name')
 
-        data.num = 5.54
-        data.price = 18.333
-        data.name = -1
+        self.assertRaises(ValueError, setattr, data, 'num', 5.54)
         self.assertEqual(data.num, 10)
+
+        self.assertRaises(ValueError, setattr, data, 'price', 18.333)
         self.assertEqual(data.price, 100)
+
+        self.assertRaises(ValueError, setattr, data, 'name', -1)
         self.assertEqual(data.name, 'data_name')
 
-        data.num = "abababa"
-        data.price = -1
-        data.name = 188
+        self.assertRaises(ValueError, setattr, data, 'num', 'abbabab')
         self.assertEqual(data.num, 10)
+
+        self.assertRaises(ValueError, setattr, data, 'price', -1)
         self.assertEqual(data.price, 100)
+
+        self.assertRaises(ValueError, setattr, data, 'name', 188)
         self.assertEqual(data.name, 'data_name')
 
-        data.num = ""
-        data.price = 0
-        data.name = -177.7
-
+        self.assertRaises(ValueError, setattr, data, 'num', "")
         self.assertEqual(data.num, 10)
+
+        self.assertRaises(ValueError, setattr, data, 'price', 0)
         self.assertEqual(data.price, 100)
+
+        self.assertRaises(ValueError, setattr, data, 'name', -177.7)
         self.assertEqual(data.name, 'data_name')
 
-        data.num = -25
-        data.price = 200
-        data.name = ' '
+        setattr(data, 'num', -25)
+        setattr(data, 'price', 200)
+        setattr(data, 'name', ' ')
         self.assertEqual(data.num, -25)
         self.assertEqual(data.price, 200)
         self.assertEqual(data.name, ' ')
-
-
-
-
 
 
 if __name__ == "__main__":

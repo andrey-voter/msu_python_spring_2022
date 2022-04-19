@@ -17,6 +17,10 @@ class CustomClass(metaclass=CustomMeta):
     def __str__(self):
         return "Custom_by_metaclass"
 
+    def __setattr__(self, key, value):
+        new_name = "custom_" + key
+        return super().__setattr__(new_name, value)
+
 
 class TestMeta(unittest.TestCase):
     """Test cases to test Metaclass"""
@@ -37,12 +41,15 @@ class TestMeta(unittest.TestCase):
         self.assertTrue('custom_line' in CustomClass.__dict__)
         self.assertFalse('line' in CustomClass.__dict__)
 
-        # показываем, что магические атрибуты остались неизменными
+        # показываем, что имена магических атрибутов остались неизменными
         self.assertTrue('__str__' in CustomClass.__dict__)
         self.assertFalse('custom___str__' in CustomClass.__dict__)
 
         self.assertTrue('__init__' in CustomClass.__dict__)
         self.assertFalse('custom___init__' in CustomClass.__dict__)
+
+        self.assertTrue('__dict__' in CustomClass.__dict__)
+        self.assertFalse('custom___dict__' in CustomClass.__dict__)
 
         # показываем, что изменились только имена немагических атрибутов
         # сами же атрибуты остались неизменными (как магические, так и не магические)
@@ -50,6 +57,28 @@ class TestMeta(unittest.TestCase):
         self.assertEqual(inst.__str__(), "Custom_by_metaclass")
         self.assertEqual(inst.custom_line(), 100)
         self.assertEqual(inst.custom_x, 50)
+
+        # показываем, что имена атрибутов, задаваемых как в init так и после init
+        # также меняются на имена с префиксом custom_
+        self.assertTrue('custom_val' in inst.__dict__)
+        self.assertFalse('val' in inst.__dict__)
+
+        inst.field = 22
+        self.assertTrue('custom_field' in inst.__dict__)
+        self.assertFalse('field' in inst.__dict__)
+
+        self.assertRaises(AttributeError, getattr, inst, 'val')
+        self.assertRaises(AttributeError, getattr, inst, 'field')
+        self.assertEqual(inst.custom_val, 99)
+        self.assertEqual(inst.custom_field, 22)
+
+        # еще тесты
+        self.assertEqual(CustomClass.custom_x, 50)
+        self.assertEqual(str(inst), "Custom_by_metaclass")
+
+        self.assertRaises(AttributeError, getattr, inst, 'x')
+        self.assertRaises(AttributeError, getattr, inst, 'line')
+        self.assertRaises(AttributeError, getattr, CustomClass, 'x')
 
 
 if __name__ == "__main__":
