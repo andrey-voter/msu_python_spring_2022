@@ -23,15 +23,21 @@ class LRUCache:
     def set(self, key, value):
         key.__hash__()  # если ключ не хешируемый, то будет брошено TypeError
         if self.size >= self.limit:
-            self.box.pop(self.cache[0])
             if key in self.cache:
+                self.box[key] = value
                 self.cache.remove(key)
+                self.cache.append(key)
+                return
+            self.box.pop(self.cache[0])
             self.cache = self.cache[1:]
             self.cache.append(key)
             self.box[key] = value
         else:
             if key in self.cache:
+                self.box[key] = value
                 self.cache.remove(key)
+                self.cache.append(key)
+                return
             self.cache.append(key)
             self.box[key] = value
             self.size += 1

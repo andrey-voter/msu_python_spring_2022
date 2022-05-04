@@ -11,7 +11,7 @@ class TestLRU(unittest.TestCase):
         suppress_text = io.StringIO()
         sys.stdout = suppress_text
 
-    def test_1(self):
+    def test_different_data_types(self):
         """Test cases to test LRU with different data types"""
         cache = LRUCache()
         cache.set("k1", "val1")
@@ -49,7 +49,7 @@ class TestLRU(unittest.TestCase):
         cache.set("k3", (3,))
         self.assertEqual(cache.get("k3"), (3,))
 
-    def test_2(self):
+    def test_lru_semantics(self):
         """Test cases to test LRU semantics"""
         cache = LRUCache(2)
         cache.set("k1", "val1")
@@ -61,7 +61,21 @@ class TestLRU(unittest.TestCase):
         self.assertEqual(cache.get("k3"), "val3")
         self.assertEqual(cache.get("k2"), None)
         self.assertEqual(cache.get("k1"), "val1")
+        # тест set с новым значением по существующему ключу:
+        cache.set("k3", "val33")
+        self.assertEqual(cache.box["k3"], "val33")
+        # покажем, что этот ключ удалится в последнюю очередь:
+        cache.set("k4", "val4")
+        self.assertTrue("k3" in cache.box)
+        self.assertEqual(cache.box["k3"], "val33")
+        self.assertFalse("k1" in cache.box)
+        cache.set("k5", "val5")
+        self.assertFalse("k3" in cache.box)
+        self.assertEqual(cache.get("k4"), "val4")
+        self.assertEqual(cache.get("k5"), "val5")
 
+    def test_lru_raises(self):
+        """Test cases to test LRU raises"""
         with self.assertRaises(BufferError):
             cache = LRUCache(0)
 
@@ -101,7 +115,7 @@ class TestLRU(unittest.TestCase):
 
 
 
-    def test_3(self):
+    def test_different_cases(self):
         """Different test cases"""
         cache = LRUCache(2)
         cache.set("k1", "val1")
@@ -125,6 +139,16 @@ class TestLRU(unittest.TestCase):
         self.assertEqual(cache.get("k4"), "val4")
         cache.set("k4", [])
         self.assertEqual(cache.get("k4"), [])
+        # тест с полным вытеснением элементов
+        cache = LRUCache(2)
+        cache.set("k1", "val1")
+        cache.set("k2", "val2")
+        cache.set("k3", "val3")
+        cache.set("k4", "val4")
+        self.assertEqual(cache.get("k1"), None)
+        self.assertEqual(cache.get("k2"), None)
+        self.assertEqual(cache.get("k3"), "val3")
+        self.assertEqual(cache.get("k4"), "val4")
 
 
 if __name__ == "__main__":
